@@ -33,7 +33,9 @@ const resolvers = {
 
     },
     removeBook: async () => {
-
+      return Book.deleteOne
     }
   }
 }
+
+module.exports = resolvers; 
