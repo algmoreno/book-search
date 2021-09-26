@@ -1,5 +1,6 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
+const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core');
 const { typeDefs, resolvers } = require('./schemas');
 const path = require('path');
 const db = require('./config/connection');
@@ -16,7 +17,11 @@ async function startServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: authMiddleware
+    context: authMiddleware,
+
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+    playground: true
+
   });
 
   await server.start();
@@ -37,7 +42,7 @@ db.once('open', () => {
   app.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
 
-    console.log(`Use GraphQL at http:localhost:${PORT}${server.graphqlPath}`)
+    console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`)
   });
 });
 }
